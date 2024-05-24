@@ -3,7 +3,6 @@ import sqlite3
 connection = sqlite3.connect('client.sqlite')
 cursor = connection.cursor()
 
-# добавление нового оборудования в таблицу endpoints
 cursor.execute(
     '''
     INSERT INTO endpoints (name, active)
@@ -22,6 +21,7 @@ data = cursor.execute(
 
     '''
 )
+
 for row in data:
     print(row)
 connection.commit()

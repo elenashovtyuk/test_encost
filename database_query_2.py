@@ -3,8 +3,6 @@ import sqlite3
 connection = sqlite3.connect('client.sqlite')
 cursor = connection.cursor()
 
-# Написать запрос, который выводит количество причин простоев
-# для каждой неактивной точки
 cursor.execute(
     '''
     SELECT endpoint_id, COUNT(reason_name) AS count_reasons

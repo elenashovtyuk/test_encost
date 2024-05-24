@@ -3,9 +3,6 @@ import sqlite3
 connection = sqlite3.connect('client.sqlite')
 cursor = connection.cursor()
 
-# Написать запрос, который выведет для каждого активного оборудования,
-# количество причины простоя “ Перебои напряжения”
-# (нужно учесть что это надо сделать для каждой группы(reason_hierarchy))
 cursor.execute(
     '''
     SELECT
@@ -25,5 +22,6 @@ cursor.execute(
 
     '''
 )
+
 for result in cursor:
     print(result)

@@ -3,7 +3,6 @@ import sqlite3
 connection = sqlite3.connect('client.sqlite')
 cursor = connection.cursor()
 
-# Написать запрос, который выводит причины простоя только активных станков.
 cursor.execute(
     '''
     SELECT endpoint_id, reason_name
@@ -13,5 +12,6 @@ cursor.execute(
     WHERE endpoints.active = 'true';
     '''
 )
+
 for result in cursor:
     print(result)

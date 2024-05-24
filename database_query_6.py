@@ -3,7 +3,6 @@ import sqlite3
 connection = sqlite3.connect('client.sqlite')
 cursor = connection.cursor()
 
-# Запрос на добавление для новых станков группы "Цех №2"
 cursor.execute(
     '''
     INSERT INTO endpoint_groups (endpoint_id, name)
@@ -18,12 +17,14 @@ cursor.execute(
         WHERE endpoints.name = 'Фрезер №3'), 'Цех №2')
     '''
 )
+
 data_3 = cursor.execute(
     '''
     SELECT * FROM endpoint_groups;
 
     '''
 )
+
 for row in data_3:
     print(row)
 connection.commit()

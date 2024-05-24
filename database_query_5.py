@@ -3,15 +3,19 @@ import sqlite3
 connection = sqlite3.connect('client.sqlite')
 cursor = connection.cursor()
 
-# Запрос на копирование со станков:
-# “Фрезерный станок”, “Старый, ЧПУ”, “Сварка”,
-# причины простоя и перенос их на новые станки.
 cursor.execute(
     '''
     INSERT INTO endpoint_reasons (endpoint_id, reason_name, reason_hierarchy)
-    SELECT 7, reason_name, reason_hierarchy
+    SELECT 7,
+    reason_name,
+    reason_hierarchy
     FROM endpoint_reasons
-    WHERE endpoint_reasons.endpoint_id = 6
+    WHERE endpoint_reasons.endpoint_id IN(
+        SELECT endpoint_id
+        FROM endpoints INNER JOIN endpoint_reasons ON
+        endpoints.id = endpoint_reasons.endpoint_id
+        WHERE endpoints.name = 'Сварка'
+    )
     '''
 )
 cursor.execute(
@@ -19,7 +23,12 @@ cursor.execute(
     INSERT INTO endpoint_reasons (endpoint_id, reason_name, reason_hierarchy)
     SELECT 8, reason_name, reason_hierarchy
     FROM endpoint_reasons
-    WHERE endpoint_reasons.endpoint_id = 5
+    WHERE endpoint_reasons.endpoint_id IN(
+        SELECT endpoint_id
+        FROM endpoints INNER JOIN endpoint_reasons ON
+        endpoints.id = endpoint_reasons.endpoint_id
+        WHERE endpoints.name = 'Старый ЧПУ'
+    )
     '''
 )
 cursor.execute(
@@ -27,10 +36,14 @@ cursor.execute(
     INSERT INTO endpoint_reasons (endpoint_id, reason_name, reason_hierarchy)
     SELECT 9, reason_name, reason_hierarchy
     FROM endpoint_reasons
-    WHERE endpoint_reasons.endpoint_id = 1
+    WHERE endpoint_reasons.endpoint_id IN(
+        SELECT endpoint_id
+        FROM endpoints INNER JOIN endpoint_reasons ON
+        endpoints.id = endpoint_reasons.endpoint_id
+        WHERE endpoints.name = 'Фрезерный станок'
+    )
     '''
 )
-
 
 data_2 = cursor.execute(
     '''
@@ -38,5 +51,6 @@ data_2 = cursor.execute(
 
     '''
 )
+
 for row in data_2:
     print(row)

@@ -3,7 +3,6 @@ import sqlite3
 connection = sqlite3.connect('client.sqlite')
 cursor = connection.cursor()
 
-# Запрос на добавление станков “Пильный станок” и “Старый ЧПУ” к новой группе.
 cursor.execute(
     '''
     UPDATE endpoint_groups
@@ -21,6 +20,7 @@ data_4 = cursor.execute(
 
     '''
 )
+
 for row in data_4:
     print(row)
 connection.commit()
